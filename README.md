@@ -1,6 +1,6 @@
 # Stripe PaymentIntent Integration
 
-This is a sample local integration for accepting a card payment via the Stripe PaymentIntents integration
+This is a sample local integration for accepting a card payment via the Stripe PaymentIntents integration. A demo video is here: https://drive.google.com/file/d/1ckOx4-XJBGKJf8vQH48yvzKhe6yIRql6/view?usp=sharing
 
 
 
