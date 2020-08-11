@@ -14,5 +14,5 @@ Running this app locally requires the following:
 ## Running the app
 
 * Clone into this repository
-* Run `nodemon server.js`
+* Run `$ nodemon server.js`
 * Navigate your browser to `http://localhost:3000`
