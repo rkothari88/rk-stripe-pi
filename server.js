@@ -1,24 +1,10 @@
 const express = require('express');
 const expressHandlebars = require('express-handlebars');
 const stripe = require('stripe')('sk_test_51HEQTcAlhU4pmDMqwM4jCa7MK2zEwVfSgzshdZRfILNgy3lBECfzIN8XKkgIzMrBlPLYph2f8NlFzZc7SH2eroIx00fa6GIBR7');
+const bodyParser = require('body-parser');
 
 var app = express();
 
-
-/*
-const paymentIntent = stripe.paymentIntents.create({
-  amount: 1099,
-  currency: 'usd',
-  // Verify your integration in this guide by including this parameter
-  metadata: {integration_check: 'accept_a_payment'},
-});
-*/
-
-/*
-app.engine('.hbs', expressHandlebars({ extname: '.hbs' }));
-app.set('view engine', '.hbs');
-app.set('views', './views');
-*/
 app.get('/secret', async (req, res) => {
   const intent = await stripe.paymentIntents.create({
   amount: 1099,
@@ -28,6 +14,30 @@ app.get('/secret', async (req, res) => {
 	res.json({client_secret: intent.client_secret });
 });
 
+app.post('/webhook', bodyParser.raw({type: 'application/json'}), (request, response) => {
+  let event;
+
+  try {
+    event = JSON.parse(request.body);
+  } catch (err) {
+    response.status(400).send(`Webhook Error: ${err.message}`);
+  }
+
+  // Handle the event
+  switch (event.type) {
+    case 'payment_intent.succeeded':
+      const paymentIntent = event.data.object;
+	  console.log('Send nothing to ' + paymentIntent.shipping.name);
+      //console.log('PaymentIntent was successful!');
+      break;
+    default:
+      // Unexpected event type
+      return response.status(400).end();
+  }
+
+  // Return a 200 response to acknowledge receipt of the event
+  response.json({received: true});
+});
 
 app.use(express.static(__dirname + '/public'));
 
