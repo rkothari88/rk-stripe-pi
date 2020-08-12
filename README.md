@@ -14,5 +14,6 @@ Running this app locally requires the following:
 ## Running the app
 
 * Clone into this repository
+* Replace `{STRIPE_TEST_API_KEY}` with your Stripe API key in `server.js`
 * Run `$ nodemon server.js`
 * Navigate your browser to `http://localhost:3000`
